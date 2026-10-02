@@ -1,0 +1,334 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 720" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <radialGradient id="bgAmbient" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#0a1236" />
+      <stop offset="50%" stop-color="#05081c" />
+      <stop offset="100%" stop-color="#02030a" />
+    </radialGradient>
+    <radialGradient id="topGlowBlue" cx="15%" cy="20%" r="40%">
+      <stop offset="0%" stop-color="#0066ff" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#0066ff" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="topGlowPink" cx="85%" cy="20%" r="45%">
+      <stop offset="0%" stop-color="#d9008f" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#d9008f" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Card Neon Border Gradient -->
+    <linearGradient id="cardBorderGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="35%" stop-color="#2563eb" />
+      <stop offset="70%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+
+    <!-- Card Glass Body -->
+    <linearGradient id="cardBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070c24" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#040716" stop-opacity="0.98" />
+      <stop offset="100%" stop-color="#08081a" stop-opacity="0.96" />
+    </linearGradient>
+
+    <!-- Wing Logo Gradient -->
+    <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="40%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+
+    <linearGradient id="cyanLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0" />
+      <stop offset="100%" stop-color="#00f0ff" />
+    </linearGradient>
+    <linearGradient id="pinkLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Neon Glow Filter -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur1" />
+      <feGaussianBlur stdDeviation="16" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="cardOuterGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#00e5ff" flood-opacity="0.45" />
+      <feDropShadow dx="0" dy="0" stdDeviation="22" flood-color="#ec4899" flood-opacity="0.35" />
+    </filter>
+
+    <linearGradient id="reflectionFade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35" />
+      <stop offset="60%" stop-color="#ffffff" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <mask id="reflectionMask">
+      <rect x="0" y="620" width="1080" height="100" fill="url(#reflectionFade)" />
+    </mask>
+  </defs>
+
+  <!-- BACKGROUND -->
+  <rect width="1080" height="720" fill="url(#bgAmbient)" />
+  <rect width="1080" height="720" fill="url(#topGlowBlue)" />
+  <rect width="1080" height="720" fill="url(#topGlowPink)" />
+
+  <!-- Atmospheric Glow Rays -->
+  <path d="M-100,0 Q300,300 700,50" stroke="#00f0ff" stroke-width="1.5" fill="none" opacity="0.15" />
+  <path d="M400,0 Q700,350 1180,200" stroke="#ec4899" stroke-width="1.5" fill="none" opacity="0.15" />
+
+  <!-- MAIN CARD GROUP -->
+  <g id="tazo-card" transform="translate(0, 0)">
+    <!-- Card Outer Neon Border Glow -->
+    <rect x="52" y="62" width="976" height="566" rx="34" fill="none" stroke="url(#cardBorderGlow)" stroke-width="4.5" filter="url(#cardOuterGlow)" />
+    <!-- Card Inner Glass Base -->
+    <rect x="54" y="64" width="972" height="562" rx="32" fill="url(#cardBodyGrad)" />
+
+    <!-- Subtle Diagonal Inner Glass Sweep -->
+    <path d="M54,420 Q300,560 650,560 L1026,560 L1026,626 L54,626 Z" fill="#00f0ff" opacity="0.04" />
+    <path d="M54,64 L1026,64 L1026,200 Q700,100 54,280 Z" fill="#ec4899" opacity="0.03" />
+
+    <!-- ==============================================
+         TOP LEFT: WINGS LOGO + "TAZO CARD" + TEZOCRON
+         ============================================== -->
+    <!-- Stylized Wing Emblem -->
+    <g transform="translate(98, 115)">
+      <!-- Left Wing Bars -->
+      <path d="M0,0 L95,0 L85,15 L0,15 Z" fill="url(#wingGrad)" />
+      <path d="M0,22 L80,22 L72,35 L0,35 Z" fill="url(#wingGrad)" />
+      <path d="M0,42 L65,42 L59,53 L0,53 Z" fill="url(#wingGrad)" />
+      <!-- Center Stem -->
+      <polygon points="98,0 116,0 116,70 107,115 98,70" fill="url(#wingGrad)" />
+      <!-- Right Wing Bars -->
+      <path d="M214,0 L119,0 L129,15 L214,15 Z" fill="url(#wingGrad)" />
+      <path d="M214,22 L134,22 L142,35 L214,35 Z" fill="url(#wingGrad)" />
+      <path d="M214,42 L149,42 L155,53 L214,53 Z" fill="url(#wingGrad)" />
+    </g>
+
+    <!-- TAZO CARD Header Text -->
+    <text x="365" y="180" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="54" fill="#00F0FF" letter-spacing="3" filter="drop-shadow(0 0 10px rgba(0,240,255,0.45))">
+      TAZO CARD
+    </text>
+
+    <!-- Subtitle: — TEZOCRON — -->
+    <line x1="375" y1="215" x2="445" y2="215" stroke="#00f0ff" stroke-width="3" stroke-linecap="round" />
+    <text x="525" y="222" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="19" fill="#ffffff" letter-spacing="8">
+      TEZOCRON
+    </text>
+    <line x1="605" y1="215" x2="675" y2="215" stroke="#ec4899" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Contactless Payment Signal Waves (below wings logo) -->
+    <g transform="translate(240, 255) rotate(-35)">
+      <path d="M0,0 A16,16 0 0,1 0,22" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+      <path d="M10,-6 A26,26 0 0,1 10,28" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+      <path d="M20,-12 A36,36 0 0,1 20,34" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+    </g>
+
+    <!-- ==============================================
+         TOP RIGHT: CONNECT / CREATE / GROW
+         ============================================== -->
+    <g transform="translate(845, 122)">
+      <line x1="0" y1="0" x2="0" y2="78" stroke="#00d2ff" stroke-width="2" opacity="0.8" />
+      <text x="24" y="20" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="17" fill="#00d2ff" letter-spacing="3.5">
+        CONNECT
+      </text>
+      <text x="24" y="48" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="17" fill="#00d2ff" letter-spacing="3.5">
+        CREATE
+      </text>
+      <text x="24" y="76" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="17" fill="#00d2ff" letter-spacing="3.5">
+        GROW
+      </text>
+    </g>
+
+    <!-- ==============================================
+         CENTER: RELATE LINK PILL BUBBLE
+         ============================================== -->
+    <g transform="translate(118, 335)">
+      <rect x="0" y="0" width="505" height="52" rx="26" fill="#060c26" stroke="#4f46e5" stroke-width="2" />
+      <rect x="0" y="0" width="505" height="52" rx="26" fill="none" stroke="#00f0ff" stroke-width="1.2" opacity="0.75" />
+      <!-- Link Chain Icon -->
+      <g transform="translate(26, 17)" fill="none" stroke="#00f0ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </g>
+      <!-- Link Text -->
+      <text x="68" y="32" font-family="monospace, 'Courier New', Courier, sans-serif" font-weight="700" font-size="20" fill="#ffffff" letter-spacing="0.5">
+        https://tezocron.com/relate/userID
+      </text>
+    </g>
+
+    <!-- ==============================================
+         RIGHT SIDE: QR CODE WITH CENTER WING LOGO
+         ============================================== -->
+    <g transform="translate(780, 275)">
+      <!-- Outer Glowing Rounded Border -->
+      <rect x="0" y="0" width="205" height="205" rx="28" fill="#04081c" stroke="#00f0ff" stroke-width="4" filter="drop-shadow(0 0 12px rgba(0,240,255,0.6))" />
+      
+      <!-- QR Matrix Pattern (High Contrast White Modules) -->
+      <g fill="#ffffff" transform="translate(18, 18)">
+        <!-- Top-Left Target Finder -->
+        <rect x="0" y="0" width="44" height="44" rx="6" fill="#ffffff" />
+        <rect x="7" y="7" width="30" height="30" rx="3" fill="#04081c" />
+        <rect x="14" y="14" width="16" height="16" rx="2" fill="#ffffff" />
+
+        <!-- Top-Right Target Finder -->
+        <rect x="125" y="0" width="44" height="44" rx="6" fill="#ffffff" />
+        <rect x="132" y="7" width="30" height="30" rx="3" fill="#04081c" />
+        <rect x="139" y="14" width="16" height="16" rx="2" fill="#ffffff" />
+
+        <!-- Bottom-Left Target Finder -->
+        <rect x="0" y="125" width="44" height="44" rx="6" fill="#ffffff" />
+        <rect x="7" y="132" width="30" height="30" rx="3" fill="#04081c" />
+        <rect x="14" y="139" width="16" height="16" rx="2" fill="#ffffff" />
+
+        <!-- Timing Patterns & Data Modules -->
+        <rect x="52" y="4" width="7" height="7" rx="1.5" />
+        <rect x="66" y="4" width="7" height="7" rx="1.5" />
+        <rect x="80" y="4" width="7" height="7" rx="1.5" />
+        <rect x="94" y="4" width="7" height="7" rx="1.5" />
+        <rect x="108" y="4" width="7" height="7" rx="1.5" />
+
+        <rect x="52" y="18" width="7" height="7" rx="1.5" />
+        <rect x="80" y="18" width="7" height="7" rx="1.5" />
+        <rect x="108" y="18" width="7" height="7" rx="1.5" />
+
+        <rect x="52" y="32" width="7" height="7" rx="1.5" />
+        <rect x="66" y="32" width="7" height="7" rx="1.5" />
+        <rect x="94" y="32" width="7" height="7" rx="1.5" />
+        <rect x="108" y="32" width="7" height="7" rx="1.5" />
+
+        <!-- Middle Columns -->
+        <rect x="4" y="52" width="7" height="7" rx="1.5" />
+        <rect x="18" y="52" width="7" height="7" rx="1.5" />
+        <rect x="32" y="52" width="7" height="7" rx="1.5" />
+        <rect x="46" y="52" width="7" height="7" rx="1.5" />
+        <rect x="60" y="52" width="7" height="7" rx="1.5" />
+        <rect x="102" y="52" width="7" height="7" rx="1.5" />
+        <rect x="116" y="52" width="7" height="7" rx="1.5" />
+        <rect x="130" y="52" width="7" height="7" rx="1.5" />
+        <rect x="144" y="52" width="7" height="7" rx="1.5" />
+        <rect x="158" y="52" width="7" height="7" rx="1.5" />
+
+        <rect x="4" y="66" width="7" height="7" rx="1.5" />
+        <rect x="32" y="66" width="7" height="7" rx="1.5" />
+        <rect x="116" y="66" width="7" height="7" rx="1.5" />
+        <rect x="144" y="66" width="7" height="7" rx="1.5" />
+        <rect x="158" y="66" width="7" height="7" rx="1.5" />
+
+        <rect x="4" y="80" width="7" height="7" rx="1.5" />
+        <rect x="18" y="80" width="7" height="7" rx="1.5" />
+        <rect x="32" y="80" width="7" height="7" rx="1.5" />
+        <rect x="116" y="80" width="7" height="7" rx="1.5" />
+        <rect x="130" y="80" width="7" height="7" rx="1.5" />
+        <rect x="158" y="80" width="7" height="7" rx="1.5" />
+
+        <rect x="4" y="94" width="7" height="7" rx="1.5" />
+        <rect x="18" y="94" width="7" height="7" rx="1.5" />
+        <rect x="46" y="94" width="7" height="7" rx="1.5" />
+        <rect x="130" y="94" width="7" height="7" rx="1.5" />
+        <rect x="144" y="94" width="7" height="7" rx="1.5" />
+
+        <rect x="4" y="108" width="7" height="7" rx="1.5" />
+        <rect x="32" y="108" width="7" height="7" rx="1.5" />
+        <rect x="46" y="108" width="7" height="7" rx="1.5" />
+        <rect x="60" y="108" width="7" height="7" rx="1.5" />
+        <rect x="102" y="108" width="7" height="7" rx="1.5" />
+        <rect x="116" y="108" width="7" height="7" rx="1.5" />
+        <rect x="144" y="108" width="7" height="7" rx="1.5" />
+        <rect x="158" y="108" width="7" height="7" rx="1.5" />
+
+        <!-- Bottom Data -->
+        <rect x="52" y="122" width="7" height="7" rx="1.5" />
+        <rect x="66" y="122" width="7" height="7" rx="1.5" />
+        <rect x="80" y="122" width="7" height="7" rx="1.5" />
+        <rect x="108" y="122" width="7" height="7" rx="1.5" />
+        <rect x="136" y="122" width="7" height="7" rx="1.5" />
+        <rect x="150" y="122" width="7" height="7" rx="1.5" />
+
+        <rect x="52" y="136" width="7" height="7" rx="1.5" />
+        <rect x="80" y="136" width="7" height="7" rx="1.5" />
+        <rect x="94" y="136" width="7" height="7" rx="1.5" />
+        <rect x="122" y="136" width="7" height="7" rx="1.5" />
+        <rect x="150" y="136" width="7" height="7" rx="1.5" />
+
+        <rect x="52" y="150" width="7" height="7" rx="1.5" />
+        <rect x="66" y="150" width="7" height="7" rx="1.5" />
+        <rect x="94" y="150" width="7" height="7" rx="1.5" />
+        <rect x="108" y="150" width="7" height="7" rx="1.5" />
+        <rect x="136" y="150" width="7" height="7" rx="1.5" />
+        <rect x="150" y="150" width="7" height="7" rx="1.5" />
+      </g>
+
+      <!-- Center Logo Plaque on QR Code -->
+      <rect x="76" y="76" width="53" height="53" rx="8" fill="#05081c" stroke="#00f0ff" stroke-width="1.8" />
+      <g transform="translate(80, 83) scale(0.21)">
+        <polygon points="98,0 116,0 116,70 107,115 98,70" fill="url(#wingGrad)" />
+        <path d="M0,0 L95,0 L85,15 L0,15 Z" fill="url(#wingGrad)" />
+        <path d="M0,22 L80,22 L72,35 L0,35 Z" fill="url(#wingGrad)" />
+        <path d="M214,0 L119,0 L129,15 L214,15 Z" fill="url(#wingGrad)" />
+        <path d="M214,22 L134,22 L142,35 L214,35 Z" fill="url(#wingGrad)" />
+      </g>
+    </g>
+
+    <!-- ==============================================
+         LOWER CARD DETAILS (3 COLUMNS)
+         ============================================== -->
+    <g transform="translate(118, 440)">
+      <!-- Col 1: CARDHOLDER NAME -->
+      <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="14" fill="#00d2ff" letter-spacing="2">
+        CARDHOLDER NAME
+      </text>
+      <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="24" fill="#ffffff" letter-spacing="2">
+        TEZOC CHAIN
+      </text>
+
+      <!-- Vertical Divider 1 -->
+      <line x1="295" y1="-8" x2="295" y2="35" stroke="#3b82f6" stroke-width="1.5" opacity="0.6" />
+
+      <!-- Col 2: EXPIRES -->
+      <g transform="translate(330, 0)">
+        <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="14" fill="#00d2ff" letter-spacing="2">
+          EXPIRES
+        </text>
+        <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="24" fill="#ffffff" letter-spacing="2">
+          12/30
+        </text>
+      </g>
+
+      <!-- Vertical Divider 2 -->
+      <line x1="470" y1="-8" x2="470" y2="35" stroke="#3b82f6" stroke-width="1.5" opacity="0.6" />
+
+      <!-- Col 3: CVV -->
+      <g transform="translate(505, 0)">
+        <text x="0" y="0" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="14" fill="#00d2ff" letter-spacing="2">
+          CVV
+        </text>
+        <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="24" fill="#ffffff" letter-spacing="4">
+          ***
+        </text>
+      </g>
+    </g>
+
+    <!-- ==============================================
+         BOTTOM FOOTER
+         ============================================== -->
+    <g transform="translate(540, 560)">
+      <line x1="-340" y1="-5" x2="-270" y2="-5" stroke="#00f0ff" stroke-width="3" stroke-linecap="round" />
+      <text x="0" y="0" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="15" fill="#ffffff" letter-spacing="2.5">
+        POWER BY JAZ MEDIA PARUSTARTA (JMP)
+      </text>
+      <line x1="270" y1="-5" x2="340" y2="-5" stroke="#ec4899" stroke-width="3" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- ==============================================
+       BOTTOM GLOSSY FLOOR REFLECTION
+       ============================================== -->
+  <g mask="url(#reflectionMask)" transform="translate(0, 750) scale(1, -0.22)" opacity="0.55" filter="blur(3px)">
+    <use href="#tazo-card" />
+  </g>
+</svg>

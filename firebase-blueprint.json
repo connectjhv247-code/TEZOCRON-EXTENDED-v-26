@@ -1,0 +1,455 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered user profile in TEZOCRON EXTENDED",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth User ID" },
+        "email": { "type": "string", "format": "email" },
+        "full_name": { "type": "string" },
+        "display_name": { "type": "string" },
+        "photo_url": { "type": "string" },
+        "bio": { "type": "string" },
+        "play_role": { "type": "string" },
+        "role": { "type": "string" },
+        "coinBalance": { "type": "number" },
+        "creditCoinBalance": { "type": "number", "description": "Actual credited coin offer balance" },
+        "giftCount": { "type": "number" },
+        "savedAmount": { "type": "number", "description": "User verified saved amount in TEZOCRON" },
+        "nairaBalance": { "type": "number", "description": "User real Naira balance in TEZOCRON" },
+        "liveViewerAmount": { "type": "string", "enum": ["min", "max", "extended"] },
+        "liveViewerDeduction": { "type": "string", "enum": ["special_event", "favourite", "hot"] },
+        "liveSettings": {
+          "type": "object",
+          "properties": {
+            "viewerAmount": { "type": "string" },
+            "viewerCapacity": { "type": "number" },
+            "deductionSetting": { "type": "string" },
+            "additionalDeductionPerSec": { "type": "number" }
+          }
+        },
+        "privacy_accepted": { "type": "boolean" },
+        "account_created_at": { "type": "string", "format": "date-time" },
+        "fcm_token": { "type": "string" },
+        "username": { "type": "string", "description": "Unique, lowercase username (3-15 chars, letters, numbers, underscore only)" },
+        "username_changed": { "type": "boolean", "description": "Indicates if user has already customized their username once" },
+        "relate_id": { "type": "string", "description": "Safe unique public Relate ID" },
+        "relate_url": { "type": "string", "description": "Official TEZOCRON Relate URL" },
+        "settings": {
+          "type": "object",
+          "description": "User preference settings",
+          "properties": {
+            "theme": { "type": "string", "enum": ["dark", "light", "system"] },
+            "privacy": {
+              "type": "object",
+              "properties": {
+                "profileVisibility": { "type": "string", "enum": ["public", "followers", "private"] },
+                "postVisibility": { "type": "string", "enum": ["public", "followers", "private"] },
+                "relateVisibility": { "type": "string", "enum": ["public", "followers", "private"] },
+                "showOnlineActivity": { "type": "boolean" }
+              }
+            },
+            "notifications": {
+              "type": "object",
+              "properties": {
+                "messages": { "type": "boolean" },
+                "relateActivity": { "type": "boolean" },
+                "securityAlerts": { "type": "boolean" },
+                "appUpdates": { "type": "boolean" }
+              }
+            },
+            "sessionVersion": { "type": "number" },
+            "updatedAt": { "type": "string", "format": "date-time" }
+          }
+        }
+      },
+      "required": ["uid", "email", "play_role", "privacy_accepted"]
+    },
+    "ProfileView": {
+      "title": "ProfileView",
+      "description": "A view event on a user profile",
+      "type": "object",
+      "properties": {
+        "viewerId": { "type": "string" },
+        "viewedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["viewerId", "viewedAt"]
+    },
+    "ProfileLove": {
+      "title": "ProfileLove",
+      "description": "A love reaction on a user profile",
+      "type": "object",
+      "properties": {
+        "loverId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["loverId", "createdAt"]
+    },
+    "ProfileRelate": {
+      "title": "ProfileRelate",
+      "description": "A relate relationship with a user profile",
+      "type": "object",
+      "properties": {
+        "relaterId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["relaterId", "createdAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "A real user post containing uploaded picture or video media",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["image", "video"] },
+        "caption": { "type": "string" },
+        "privacy": { "type": "string", "enum": ["public", "private"] },
+        "viewsCount": { "type": "number" },
+        "commentsCount": { "type": "number" },
+        "lovesCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "mediaUrl", "mediaType", "privacy", "createdAt"]
+    },
+    "PostLove": {
+      "title": "PostLove",
+      "description": "A real love reaction on a user post",
+      "type": "object",
+      "properties": {
+        "loverId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["loverId", "createdAt"]
+    },
+    "PostView": {
+      "title": "PostView",
+      "description": "A real view on a user post",
+      "type": "object",
+      "properties": {
+        "viewerId": { "type": "string" },
+        "viewedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["viewerId", "viewedAt"]
+    },
+    "PostComment": {
+      "title": "PostComment",
+      "description": "A real user comment on a post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "postId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "postId", "authorId", "authorName", "text", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Real message in the TEZOCRON EXTENDED Social Chat collection",
+      "type": "object",
+      "properties": {
+        "content": { "type": "string" },
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "photoURL": { "type": "string" },
+        "messageType": { "type": "string", "enum": ["text", "voice", "image"] },
+        "mediaUrl": { "type": "string" },
+        "duration": { "type": "number" }
+      },
+      "required": ["content", "userId", "displayName"]
+    },
+    "GlobalChatMessage": {
+      "title": "GlobalChatMessage",
+      "description": "Real message in the TEZOCRON EXTENDED Social Chat / Global Chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "sender_name": { "type": "string" },
+        "sender_photo": { "type": "string" },
+        "content": { "type": "string" },
+        "message_type": { "type": "string", "enum": ["text", "voice", "image"] },
+        "media_url": { "type": "string" },
+        "duration": { "type": "number" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "user_id", "sender_name", "message_type", "created_at"]
+    },
+    "MessageReport": {
+      "title": "MessageReport",
+      "description": "Moderation report for inappropriate chat messages",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "messageId": { "type": "string" },
+        "reporterId": { "type": "string" },
+        "reason": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "messageId", "reporterId", "createdAt"]
+    },
+    "RelateLink": {
+      "title": "RelateLink",
+      "description": "Safe public lookup mapping public Relate ID to user account",
+      "type": "object",
+      "properties": {
+        "relateId": { "type": "string" },
+        "userId": { "type": "string" },
+        "username": { "type": "string", "description": "Safe unique username associated with this relate link" },
+        "relateUrl": { "type": "string" },
+        "displayName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["relateId", "userId", "relateUrl", "createdAt"]
+    },
+    "AccountReport": {
+      "title": "AccountReport",
+      "description": "Real moderation report submitted for a user account to TEZOCRON",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reporterId": { "type": "string" },
+        "reporterName": { "type": "string" },
+        "reporterEmail": { "type": "string" },
+        "reportedUserId": { "type": "string" },
+        "reportedName": { "type": "string" },
+        "reportedEmail": { "type": "string" },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Indiscipline", "Fake Account", "Suspected Fraud", "Privacy Violation"]
+          }
+        },
+        "profileRef": { "type": "string" },
+        "contentRef": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending_review", "investigating", "resolved"] },
+        "emailDeliveryStatus": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "reporterId", "reportedUserId", "reasons", "status", "createdAt"]
+    },
+    "LiveStream": {
+      "title": "LiveStream",
+      "description": "Active real live streaming broadcast session in TEZOCRON EXTENDED",
+      "type": "object",
+      "properties": {
+        "channelName": { "type": "string" },
+        "hostUid": { "type": "string" },
+        "hostName": { "type": "string" },
+        "hostPhoto": { "type": "string" },
+        "title": { "type": "string" },
+        "isLive": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["live", "ended"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "viewersCount": { "type": "number" }
+      },
+      "required": ["channelName", "hostUid", "hostName", "isLive", "status", "createdAt"]
+    },
+    "LiveComment": {
+      "title": "LiveComment",
+      "description": "Real live comments sent during an active live stream",
+      "type": "object",
+      "properties": {
+        "channelName": { "type": "string" },
+        "text": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userPhoto": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["channelName", "text", "userId", "userName", "createdAt"]
+    },
+    "LiveReaction": {
+      "title": "LiveReaction",
+      "description": "Real live reactions sent during an active live stream",
+      "type": "object",
+      "properties": {
+        "channelName": { "type": "string" },
+        "emoji": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["channelName", "emoji", "userId", "createdAt"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "Real notification in TEZOCRON EXTENDED",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "category": { "type": "string", "enum": ["personal", "system"] },
+        "type": { "type": "string", "enum": ["comment", "views_milestone", "relate", "report_notice", "live_invite", "system_announcement", "account_welcome", "security_alert"] },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "actorId": { "type": "string" },
+        "actorName": { "type": "string" },
+        "actorPhoto": { "type": "string" },
+        "targetId": { "type": "string" },
+        "metadata": { "type": "object" }
+      },
+      "required": ["id", "userId", "category", "type", "title", "message", "read", "createdAt"]
+    },
+    "LivestreamArchive": {
+      "title": "LivestreamArchive",
+      "description": "Historical live stream records",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "viewersCount": { "type": "number" },
+        "reactionsCount": { "type": "number" },
+        "emojiCount": { "type": "number" },
+        "giftsCount": { "type": "number" },
+        "endedAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string" }
+      }
+    },
+    "DailyEvent": {
+      "title": "DailyEvent",
+      "description": "Official daily events in TEZOCRON EXTENDED",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string" },
+        "active": { "type": "boolean" }
+      }
+    },
+    "Gift": {
+      "title": "Gift",
+      "description": "Gift inventory or transaction record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "count": { "type": "number" },
+        "name": { "type": "string" }
+      }
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Coin transaction history",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized administrator record for TEZOCRON platform",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    }
+  },
+  "firestore": {
+    "/admins/{docId}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Authorized administrator records"
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/AppNotification" },
+      "description": "Personal and system notifications for authenticated users"
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/AccountReport" },
+      "description": "Secure moderation reports submitted for administrative review"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile document containing play role, photo, and preferences"
+    },
+    "/relate_links/{relateId}": {
+      "schema": { "$ref": "#/entities/RelateLink" },
+      "description": "Public safe Relate ID lookup documents"
+    },
+    "/users/{userId}/views/{viewerId}": {
+      "schema": { "$ref": "#/entities/ProfileView" },
+      "description": "Unique profile view records"
+    },
+    "/users/{userId}/loves/{loverId}": {
+      "schema": { "$ref": "#/entities/ProfileLove" },
+      "description": "Profile love reactions"
+    },
+    "/users/{userId}/relates/{relaterId}": {
+      "schema": { "$ref": "#/entities/ProfileRelate" },
+      "description": "Profile relate connections"
+    },
+    "/users/{userId}/posts/{postId}": {
+      "schema": { "$ref": "#/entities/Post" },
+      "description": "User media posts"
+    },
+    "/users/{userId}/posts/{postId}/views/{viewerId}": {
+      "schema": { "$ref": "#/entities/PostView" },
+      "description": "Media item view records"
+    },
+    "/users/{userId}/posts/{postId}/loves/{loverId}": {
+      "schema": { "$ref": "#/entities/PostLove" },
+      "description": "Post love reactions"
+    },
+    "/users/{userId}/posts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/PostComment" },
+      "description": "Real comments on posts"
+    },
+    "/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Real messages in TEZOCRON EXTENDED chat"
+    },
+    "/global_chat/{messageId}": {
+      "schema": { "$ref": "#/entities/GlobalChatMessage" },
+      "description": "Real messages in Global Social Chat"
+    },
+    "/message_reports/{reportId}": {
+      "schema": { "$ref": "#/entities/MessageReport" },
+      "description": "Moderation reports for messages"
+    },
+    "/live_streams/{streamId}": {
+      "schema": { "$ref": "#/entities/LiveStream" },
+      "description": "Active real live streaming broadcast sessions"
+    },
+    "/live_comments/{commentId}": {
+      "schema": { "$ref": "#/entities/LiveComment" },
+      "description": "Real live comments for live streams"
+    },
+    "/live_reactions/{reactionId}": {
+      "schema": { "$ref": "#/entities/LiveReaction" },
+      "description": "Real live reactions for live streams"
+    },
+    "/livestreams/{docId}": {
+      "schema": { "$ref": "#/entities/LivestreamArchive" },
+      "description": "Historical live stream records"
+    },
+    "/daily_events/{docId}": {
+      "schema": { "$ref": "#/entities/DailyEvent" },
+      "description": "Daily event announcements"
+    },
+    "/gifts/{docId}": {
+      "schema": { "$ref": "#/entities/Gift" },
+      "description": "Gift transactions and counts"
+    },
+    "/transactions/{docId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Coin transaction history"
+    }
+  }
+}

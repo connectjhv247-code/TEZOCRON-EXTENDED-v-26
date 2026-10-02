@@ -1,0 +1,263 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User profile and settings
+    match /users/{userId} {
+      // The owner can always read their own full document
+      // Other users cannot read if profileVisibility is set to 'private'
+      allow get: if isOwner(userId) || (
+        isSignedIn() && (
+          !('settings' in resource.data) ||
+          !('privacy' in resource.data.settings) ||
+          resource.data.settings.privacy.profileVisibility != 'private'
+        )
+      );
+
+      // Signed-in users can list public users
+      allow list: if isSignedIn();
+
+      // Only the authenticated owner can create, update, or delete their profile & settings
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+
+      // Subcollection views: record real views (excluding profile owner)
+      match /views/{viewerId} {
+        allow get, list: if isSignedIn();
+        allow create, update: if isSignedIn() && request.auth.uid == viewerId && request.auth.uid != userId;
+        allow delete: if isOwner(userId);
+      }
+
+      // Subcollection loves: record and toggle profile Love ❤️
+      match /loves/{loverId} {
+        allow get, list: if isSignedIn();
+        allow create, update: if isSignedIn() && request.auth.uid == loverId;
+        allow delete: if isSignedIn() && request.auth.uid == loverId;
+      }
+
+      // Subcollection relates: record and toggle Relate connection
+      match /relates/{relaterId} {
+        allow get, list: if isSignedIn();
+        allow create, update: if isSignedIn() && request.auth.uid == relaterId;
+        allow delete: if isSignedIn() && request.auth.uid == relaterId;
+      }
+
+      // Subcollection notifications: personal and system notifications for authenticated users
+      match /notifications/{notificationId} {
+        // The recipient user can read, list, update (e.g. mark read), and delete their notifications
+        allow get, list, update, delete: if isOwner(userId);
+        // Authenticated users can create notifications (e.g. comments, relates, live invites, milestone/reports)
+        allow create: if isSignedIn();
+      }
+
+      // Subcollection posts: real media posts with privacy control
+      match /posts/{postId} {
+        // Read: Owner can always read.
+        // Other users can read ONLY if the post privacy is 'public' AND the user's global profile/post visibility is not private!
+        allow get, list: if isOwner(userId) || (
+          isSignedIn() &&
+          resource.data.privacy == 'public' &&
+          (
+            !('settings' in get(/databases/$(database)/documents/users/$(userId)).data) ||
+            get(/databases/$(database)/documents/users/$(userId)).data.settings.privacy.postVisibility != 'private'
+          )
+        );
+
+        // Only the owner can create, update, or delete their posts
+        allow create: if isOwner(userId);
+        allow update: if isOwner(userId) || (isSignedIn() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['viewsCount', 'commentsCount', 'lovesCount']));
+        allow delete: if isOwner(userId);
+
+        // Subcollection post views: real media view count
+        match /views/{viewerId} {
+          allow get, list: if isOwner(userId) || (
+            isSignedIn() &&
+            get(/databases/$(database)/documents/users/$(userId)/posts/$(postId)).data.privacy == 'public'
+          );
+          // Only authenticated viewers who are NOT the owner can record a view on public posts
+          allow create, update: if isSignedIn() && request.auth.uid == viewerId && request.auth.uid != userId &&
+            get(/databases/$(database)/documents/users/$(userId)/posts/$(postId)).data.privacy == 'public';
+          allow delete: if isOwner(userId);
+        }
+
+        // Subcollection post loves: real loves on posts
+        match /loves/{loverId} {
+          allow get, list: if isOwner(userId) || (
+            isSignedIn() &&
+            get(/databases/$(database)/documents/users/$(userId)/posts/$(postId)).data.privacy == 'public'
+          );
+          allow create, update: if isSignedIn() && request.auth.uid == loverId;
+          allow delete: if isSignedIn() && request.auth.uid == loverId;
+        }
+
+        // Subcollection post comments: real comments with privacy enforcement
+        match /comments/{commentId} {
+          allow get, list: if isOwner(userId) || (
+            isSignedIn() &&
+            get(/databases/$(database)/documents/users/$(userId)/posts/$(postId)).data.privacy == 'public'
+          );
+          // Authenticated users can comment if post is public (or owner)
+          allow create: if isSignedIn() && (
+            isOwner(userId) ||
+            get(/databases/$(database)/documents/users/$(userId)/posts/$(postId)).data.privacy == 'public'
+          ) && request.resource.data.authorId == request.auth.uid;
+
+          // Only the comment author or post owner can delete comments
+          allow delete: if isOwner(userId) || (isSignedIn() && resource.data.authorId == request.auth.uid);
+          allow update: if isSignedIn() && resource.data.authorId == request.auth.uid;
+        }
+      }
+    }
+
+    // Messages collection: Real messages for authenticated users
+    match /messages/{messageId} {
+      allow read, get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.user_id == request.auth.uid
+      );
+    }
+
+    // Global Social Chat: Real messages for authenticated users
+    match /global_chat/{messageId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource.data.user_id == request.auth.uid;
+      allow delete: if isSignedIn() && resource.data.user_id == request.auth.uid;
+    }
+
+    // Message Reports for Moderation
+    match /message_reports/{reportId} {
+      allow create: if isSignedIn();
+      allow get, list: if isSignedIn();
+    }
+
+    // Public Relate Links: maps safe public Relate ID to real user account
+    match /relate_links/{relateId} {
+      // Anyone can look up a public relate link (even unauthenticated visitors before login)
+      allow get, list: if true;
+      // Authenticated users can create or update mapping for their own account
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Admins collection: strictly for authorized admin accounts
+    match /admins/{docId} {
+      allow read, write: if isSignedIn() && request.auth.token.email == 'connectjhv247@gmail.com';
+    }
+
+    // Secure Account Reports: real moderation reports submitted by authenticated users
+    match /reports/{reportId} {
+      // Authenticated users can create reports where reporterId matches their own auth UID
+      allow create: if isSignedIn() && request.resource.data.reporterId == request.auth.uid;
+      // Admin (connectjhv247@gmail.com) or the reporter can read reports; admin can update status
+      allow read: if isSignedIn() && (
+        request.auth.token.email == 'connectjhv247@gmail.com' ||
+        resource.data.reporterId == request.auth.uid
+      );
+      allow update: if isSignedIn() && request.auth.token.email == 'connectjhv247@gmail.com';
+      allow delete: if false;
+    }
+
+    // Live Streams: real active streams
+    match /live_streams/{streamId} {
+      allow read, list, get: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn() && (
+        resource.data.hostUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid
+      );
+    }
+
+    // Streams alias collection
+    match /streams/{streamId} {
+      allow read, list, get: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn() && (
+        resource.data.hostUid == request.auth.uid ||
+        resource.data.userId == request.auth.uid
+      );
+    }
+
+    // Live Comments: real comments for active live streams
+    match /live_comments/{commentId} {
+      allow read, list, get: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.authorId == request.auth.uid
+      );
+    }
+
+    // Live Reactions: real reactions for active live streams
+    match /live_reactions/{reactionId} {
+      allow read, list, get: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Live Streams Archive & History
+    match /livestreams/{streamId} {
+      allow read, get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.hostUid == request.auth.uid
+      );
+    }
+
+    // Daily Events
+    match /daily_events/{eventId} {
+      allow read, get, list: if isSignedIn();
+      allow write: if false;
+    }
+
+    // Gifts Collection
+    match /gifts/{giftId} {
+      allow read, get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Coin Transactions Collection
+    match /transactions/{transactionId} {
+      allow read, get, list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // Member Requests Collection
+    match /requests/{requestId} {
+      allow read, get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow delete: if isSignedIn();
+      allow update: if false;
+    }
+
+    // Collection group queries for public posts in Relate feed
+    match /{path=**}/posts/{postId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.privacy == 'public' ||
+        (request.auth != null && resource.data.userId == request.auth.uid)
+      );
+    }
+  }
+}

@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Background Gradients -->
+    <radialGradient id="bgGlowTL" cx="12%" cy="12%" r="45%">
+      <stop offset="0%" stop-color="#0066ff" stop-opacity="0.5"/>
+      <stop offset="45%" stop-color="#002277" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#03050c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgGlowTR" cx="88%" cy="14%" r="55%">
+      <stop offset="0%" stop-color="#ff0055" stop-opacity="0.45"/>
+      <stop offset="45%" stop-color="#88002b" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#03050c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgGlowB" cx="50%" cy="85%" r="65%">
+      <stop offset="0%" stop-color="#ff0066" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#550033" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#03050c" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Ambient Ribbons -->
+    <linearGradient id="bottomRibbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="28%" stop-color="#0077ff"/>
+      <stop offset="55%" stop-color="#ff007f"/>
+      <stop offset="85%" stop-color="#ff1a53"/>
+      <stop offset="100%" stop-color="#ff0044"/>
+    </linearGradient>
+
+    <linearGradient id="topRibbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0066ff"/>
+      <stop offset="60%" stop-color="#00d2ff"/>
+      <stop offset="100%" stop-color="#00ffff" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Glyph Gradients -->
+    <linearGradient id="tTopGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f5ff"/>
+      <stop offset="35%" stop-color="#00b4d8"/>
+      <stop offset="70%" stop-color="#0077b6"/>
+      <stop offset="100%" stop-color="#0055d4"/>
+    </linearGradient>
+
+    <linearGradient id="tStemGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0077b6"/>
+      <stop offset="25%" stop-color="#0055d4"/>
+      <stop offset="55%" stop-color="#7c3aed"/>
+      <stop offset="80%" stop-color="#d91b92"/>
+      <stop offset="100%" stop-color="#ff0080"/>
+    </linearGradient>
+
+    <linearGradient id="bar1Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="25%" stop-color="#a855f7"/>
+      <stop offset="65%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#ff007f"/>
+    </linearGradient>
+
+    <linearGradient id="bar2Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="40%" stop-color="#d91b92"/>
+      <stop offset="100%" stop-color="#ff007f"/>
+    </linearGradient>
+
+    <linearGradient id="bar3Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="45%" stop-color="#c026d3"/>
+      <stop offset="100%" stop-color="#ff007f"/>
+    </linearGradient>
+
+    <!-- Neon Glow Filters -->
+    <filter id="neonCyanGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="blur1"/>
+      <feGaussianBlur stdDeviation="20" result="blur2"/>
+      <feGaussianBlur stdDeviation="40" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="neonPinkGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="blur1"/>
+      <feGaussianBlur stdDeviation="20" result="blur2"/>
+      <feGaussianBlur stdDeviation="42" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="ribbonGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="15" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Deep Dark Background Canvas -->
+  <rect width="1024" height="1024" fill="#03050c"/>
+  <rect width="1024" height="1024" fill="url(#bgGlowTL)"/>
+  <rect width="1024" height="1024" fill="url(#bgGlowTR)"/>
+  <rect width="1024" height="1024" fill="url(#bgGlowB)"/>
+
+  <!-- Top-Left Neon Arc -->
+  <path d="M -30,130 A 290,290 0 0,1 330,-30" fill="none" stroke="url(#topRibbonGrad)" stroke-width="18" filter="url(#ribbonGlow)" opacity="0.9"/>
+  <path d="M -15,190 A 350,350 0 0,1 440,-15" fill="none" stroke="#00d2ff" stroke-width="6" filter="url(#ribbonGlow)" opacity="0.6"/>
+
+  <!-- Bottom Flowing Wave Ribbon -->
+  <path d="M -30,730 C 140,790 250,910 460,910 C 670,910 840,780 1054,670" fill="none" stroke="url(#bottomRibbonGrad)" stroke-width="22" filter="url(#ribbonGlow)" opacity="0.9"/>
+  <path d="M -30,745 C 150,805 250,920 460,920 C 680,920 850,790 1054,685" fill="none" stroke="url(#bottomRibbonGrad)" stroke-width="8" filter="url(#ribbonGlow)" opacity="0.75"/>
+
+  <!-- Subtle Center Ambient Glows -->
+  <circle cx="480" cy="500" r="290" fill="#0066ff" opacity="0.16" filter="url(#neonCyanGlow)"/>
+  <circle cx="620" cy="460" r="280" fill="#ff0066" opacity="0.18" filter="url(#neonPinkGlow)"/>
+
+  <!-- ==================== THE CENTRAL EMBLEM ==================== -->
+  <g id="emblem">
+    <!-- 1. Ambient Glow Layers Underneath -->
+    <!-- T Outer Glow -->
+    <path d="
+      M 166,280
+      H 525
+      V 700
+      L 485,745
+      L 445,700
+      V 345
+      H 166
+      A 32.5,32.5 0 0,1 166,280
+      Z
+    " fill="none" stroke="#00f0ff" stroke-width="32" opacity="0.45" filter="url(#neonCyanGlow)"/>
+
+    <!-- T Bottom Dagger Pink Glow Accent -->
+    <path d="
+      M 445,630
+      L 445,700
+      L 485,745
+      L 525,700
+      L 525,630
+    " fill="none" stroke="#ff007f" stroke-width="32" opacity="0.55" filter="url(#neonPinkGlow)"/>
+
+    <!-- Bar 1 Outer Glow -->
+    <path d="
+      M 548,280
+      H 824
+      A 32.5,32.5 0 0,1 856.5,312.5
+      A 32.5,32.5 0 0,1 824,345
+      H 548
+      Z
+    " fill="none" stroke="#ff007f" stroke-width="30" opacity="0.45" filter="url(#neonPinkGlow)"/>
+
+    <!-- Bar 2 Outer Glow -->
+    <path d="
+      M 548,367
+      H 784
+      L 734,427
+      H 548
+      Z
+    " fill="none" stroke="#ff007f" stroke-width="28" opacity="0.45" filter="url(#neonPinkGlow)"/>
+
+    <!-- Bar 3 Outer Glow -->
+    <path d="
+      M 548,449
+      H 725
+      L 680,503
+      H 548
+      Z
+    " fill="none" stroke="#ff007f" stroke-width="26" opacity="0.45" filter="url(#neonPinkGlow)"/>
+
+    <!-- 2. Solid Glyphs with Gradients & Strokes -->
+    <!-- The "T" Shape: Stem & Lower Section -->
+    <path d="
+      M 166,280
+      H 525
+      V 700
+      L 485,745
+      L 445,700
+      V 345
+      H 166
+      A 32.5,32.5 0 0,1 166,280
+      Z
+    " fill="url(#tStemGrad)" stroke="#00f5ff" stroke-width="3"/>
+
+    <!-- Top Arm of T (Horizontal Gradient Overlay) -->
+    <path d="
+      M 166,280
+      H 525
+      V 345
+      H 166
+      A 32.5,32.5 0 0,1 166,280
+      Z
+    " fill="url(#tTopGrad)" stroke="#00f5ff" stroke-width="3"/>
+
+    <!-- Inner 3D Glass Bevel Line on T Top Arm -->
+    <path d="
+      M 170,289
+      H 518
+      V 297
+      H 170
+      Z
+    " fill="#ffffff" opacity="0.38"/>
+
+    <!-- Inner 3D Glass Bevel Line on T Stem -->
+    <path d="
+      M 454,355
+      H 516
+      V 690
+      L 485,725
+      L 454,690
+      Z
+    " fill="none" stroke="#ffffff" stroke-width="2" opacity="0.22"/>
+
+    <!-- 3. The Three Right Bars ("E" Wings) -->
+    <!-- Bar 1 (Top Bar) -->
+    <path d="
+      M 548,280
+      H 824
+      A 32.5,32.5 0 0,1 856.5,312.5
+      A 32.5,32.5 0 0,1 824,345
+      H 548
+      Z
+    " fill="url(#bar1Grad)" stroke="#ff2a85" stroke-width="3.5"/>
+    <!-- Bar 1 Top Highlight -->
+    <path d="
+      M 554,288
+      H 820
+      V 296
+      H 554
+      Z
+    " fill="#ffffff" opacity="0.38"/>
+
+    <!-- Bar 2 (Middle Wing) -->
+    <path d="
+      M 548,367
+      H 784
+      Q 796,367 790,378
+      L 742,422
+      Q 736,427 726,427
+      H 548
+      Z
+    " fill="url(#bar2Grad)" stroke="#ff007f" stroke-width="3.5"/>
+    <!-- Bar 2 Top Highlight -->
+    <path d="
+      M 554,374
+      H 770
+      V 381
+      H 554
+      Z
+    " fill="#ffffff" opacity="0.32"/>
+
+    <!-- Bar 3 (Bottom Wing) -->
+    <path d="
+      M 548,449
+      H 724
+      Q 735,449 729,459
+      L 685,498
+      Q 679,503 669,503
+      H 548
+      Z
+    " fill="url(#bar3Grad)" stroke="#ff007f" stroke-width="3.5"/>
+    <!-- Bar 3 Top Highlight -->
+    <path d="
+      M 554,456
+      H 710
+      V 462
+      H 554
+      Z
+    " fill="#ffffff" opacity="0.32"/>
+  </g>
+</svg>
